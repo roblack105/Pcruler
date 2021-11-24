@@ -445,8 +445,7 @@ a#submit {
 
 a:hover,
 a:focus {
-	color: #000;
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .span1,
@@ -805,7 +804,8 @@ hr.dottad_border {
 }
 
 .icon img {
-	width: 100px;
+    width: 103px;
+    size: auto;
 }
 
 
@@ -3478,7 +3478,9 @@ footer ul.social_icons {
 		17. CUSTOM
 	-------------------------------------------------------------------*/
 
-.service_blog_inner .icon img {
+
+
+	.service_blog_inner .icon img {
 	width: 65px;
 }
 

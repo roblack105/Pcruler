@@ -1,6 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	
+	
+	
+	
+	<script>
+		
+		
+		
+		function show() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	  myDIV1.style.display ="none";
+  } else {
+    x.style.display = "none";
+	  myDIV1.style.display ="block";
+  }
+  
+}
+
+			function show1() {
+  var x = document.getElementById("myDIV2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	  myDIV1.style.display ="none";
+  } else {
+    x.style.display = "none";
+	  myDIV1.style.display ="block";
+  }
+  
+}
+		
+		
+		
+		
+		
+		
+$('label').on('click', function(){
+var color = $(this).next().css('color');
+  console.log(color);
+  if (color == 'rgb(177, 177, 177)') {
+    $(this).next().addClass('grey');
+  }
+  else { 
+    $(this).next().removeClass('grey');
+  }
+});
+
+$.fn.digits = function(){ 
+    return this.each(function(){ 
+        $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+    })
+}
+    
+$('#slider').slider({
+	range: true,
+	min: 0,
+	max: 20000,
+	values: [ 1300, 14000 ],
+	slide: function(event, ui) {
+		
+		$('.minPrice').html(ui.values[ 0 ]).digits();
+		$('.maxPrice').html(ui.values[ 1 ]).digits();
+		$('.price-range-both').html('<i>$' + ui.values[ 0 ] + ' - </i>$' + ui.values[ 1 ] );
+	}
+});
+
+
+$('.ui-slider-handle:eq(0)').append('<span class="price-range-min value">' + $('#slider').slider('values', 0 ) + '</span>');
+
+$('.ui-slider-handle:eq(1)').append('<span class="price-range-max value">' + $('#slider').slider('values', 1 ) + '</span>');
+
+var navHeight;
+  navHeight = $(window).height() - 70;
+  if ($(window).scrollTop() > navHeight) {
+    $('nav').addClass('fixed');
+  } else {
+    $('nav').removeClass('fixed');
+  }
+
+$(window).on('scroll', function() {
+	var navHeight = $(window).height() - 55;
+  if ($(window).scrollTop() > navHeight){
+  	$('#topBar').addClass('fixed');
+  }else{
+    $('#topBar').removeClass('fixed');
+    }
+});
+</script>
+
 <!-- basic -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,6 +147,7 @@
         </div>
         <div class="col-md-4 right_section_header_top">
           <div class="float-left">
+  
           </div>
           <div class="float-right">
             <div class="make_appo"> <a class="btn white_btn" href="make_appointment.html">Suggestion</a> </div>
@@ -80,13 +171,14 @@
           <div class="menu_side">
             <div id="navbar_menu">
               <ul class="first-ul">
-                </li>
+                
                 <li><a href="it_about.html">About Us</a></li>
                 <li> <a href="it_service.html">Comparison</a>
+  
                 </li>
                 <li> <a href="it_blog.html">Build</a>
                 </li>
-                <li> <a href="it_career.html">hot deals </a>
+                <li> <a href="it_career.html">hot deals</a>
             </div>
             <div class="search_icon">
               <ul>
@@ -103,6 +195,9 @@
 </header>
 <!-- end header -->
 <!-- section -->
+	
+		 <tr>
+    <th>
 <div id="slider" class="section main_slider">
   <div class="container-fuild">
     <div class="row">
@@ -129,7 +224,7 @@
                               data-basealign="slide" 
                               data-responsive_offset="on" 
                               data-responsive="off"
-                              style="z-index: 5;background-color:rgba(0, 0, 0, 0.25);border-color:rgba(0, 0, 0, 0.50);"> </div>
+                              style="z-index: 1; background-color: rgba(0, 0, 0, 0.25); border-color: rgba(0, 0, 0, 0.50);"> </div>
               <!-- LAYER NR. 1 -->
               <div class="tp-caption tp-shape tp-shapewrapper   tp-resizeme rs-parallaxlevel-0" 
                               id="slide-18-layer-912" 
@@ -166,7 +261,7 @@
                               data-splitout="none" 
                               data-responsive_offset="on" 
                               data-elementdelay="0.05" 
-                              style="z-index: 6; white-space: nowrap;">Welcome To PC Ruler </div>
+                              style="z-index: 6; white-space: nowrap;">Welcome To PC Ruler</div>
               <!-- LAYER NR. 3 -->
               <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0" 
                               id="slide-18-layer-412" 
@@ -184,7 +279,7 @@
                               data-splitin="none" 
                               data-splitout="none" 
                               data-responsive_offset="on" 
-                              style="z-index: 7; white-space: nowrap;">Place to measurement your pc</div>
+                              style="z-index: 7; white-space: nowrap;">Place to compare and pick your pc</div>
             </li>
             <li data-index="rs-181" data-transition="zoomin" data-slotamount="7"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="images/it_service/slide2.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Easy To Use & Customize" data-description="">
               <!-- MAIN IMAGE -->
@@ -242,7 +337,7 @@
                               data-splitout="none" 
                               data-responsive_offset="on" 
                               data-elementdelay="0.05" 
-                              style="z-index: 6; white-space: nowrap;">Benchmark Your Pc</div>
+                              style="z-index: 6; white-space: nowrap;">Compare PC Part</div>
               <!-- LAYER NR. 3 -->
               <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0" 
                               id="slide-18-layer-41" 
@@ -260,7 +355,7 @@
                               data-splitin="none" 
                               data-splitout="none" 
                               data-responsive_offset="on" 
-                              style="z-index: 7; white-space: nowrap;">We choice a better for you</div>
+                              style="z-index: 7; white-space: nowrap;">Consider all options before you choose</div>
             </li>
             <li data-index="rs-18" data-transition="zoomin" data-slotamount="7"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="images/it_service/slide3.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Perfectly Responsive" data-description="">
               <!-- MAIN IMAGE -->
@@ -318,7 +413,7 @@
                               data-splitout="none" 
                               data-responsive_offset="on" 
                               data-elementdelay="0.05" 
-                              style="z-index: 6; white-space: nowrap;">Test PC</div>
+                              style="z-index: 6; white-space: nowrap;">PC Build </div>
               <!-- LAYER NR. 3 -->
               <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0" 
                               id="slide-18-layer-4" 
@@ -336,7 +431,7 @@
                               data-splitin="none" 
                               data-splitout="none" 
                               data-responsive_offset="on" 
-                              style="z-index: 7; white-space: nowrap;">before you buying</div>
+                              style="z-index: 7; white-space: nowrap;">Gather part for your PC build </div>
             </li>
           </ul>
           <div class="tp-static-layers"></div>
@@ -345,58 +440,125 @@
     </div>
   </div>
 </div>
+		</td>
+  </tr>
+		
 <!-- end section -->
 <!-- section -->
 <div class="section padding_layout_1">
+  <div class="container">
+    
+	
+	
+   
+
+
+		  
+  <div id="myDIV1" width="100%" style="display: block";>
+	   <div class="main_heading text_align_center">
+		  <h2>&nbsp;let's get start it</h2>
+            <p class="large">&nbsp;</p>
+	  </div>
+		  <table width="100%" border="0" style="align-content: center">
+  <tbody>
+    <tr>
+      <th scope="col"><img style="margin-top: 36px; margin-right: 161px; margin-left: 185px; margin-bottom: 36px;"  src="images/comparison.png"../../../Pictures/غلات صغيره/img_1455883634_509.jpg"" onclick="show1()"  width="200" height="200" alt=""/></th>
+      <th scope="col"><img style="margin-top: 36px;
+	margin-right: 161px;
+	margin-left: 161px;
+	margin-bottom: 36px;" src="images/Build.png" onclick="show()"  width="200" height="200" alt=""/></th>
+		
+  
+      </tr>
+  </tbody>
+</table>
+</div>
+<div id="myDIV" style="display: none";>
+  <div class="main_heading text_align_center">
+		  <h2>Build</h2>
+            <p class="large">CHOOSE A BUILD</p>
+  </div>
+		  
+		  <table  width="100%" border="0" style="align-content: center">
+  <tbody>
+    <tr>
+      <th scope="col"><img style="margin-top: 36px; margin-right: -30px; margin-left: 14px; margin-bottom: 36px;"  src="images/gaming Build.png"  width="200" height="200" alt=""/></th>
+      <th scope="col"><img  style="margin-top: 36px; margin-right: 212px; margin-left: 110px; margin-bottom: 36px;" src="images/Workstation.png"  width="200" height="200" alt=""/></th>
+		<th scope="col"><img  style="margin-top: 36px; margin-right: 0px; margin-left: -128px; margin-bottom: 36px;" src="images/Desktop.png"  width="200" height="200" alt=""/></th>
+		<th scope="col"><img  style="margin-top: 36px; margin-right: 33px; margin-left: 90px; margin-bottom: 36px;" src="images/Custom.png" width="200" height="200" alt=""/></th>
+    </tr>
+  </tbody>
+</table>		  
+</div>
+
+		  <div id="myDIV2" style="display: none";>
+
+		  <div class="section padding_layout_1">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="full">
           <div class="main_heading text_align_center">
-            <h2>Why Choose Us</h2>
-            <p class="large">Fastest repair service with best price!</p>
+            <h2>Comparison</h2>
+            <p class="large">CHOOSE COMPONENTS</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
+<div style="align: center" class="row">
       <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"> <img src="images/it_service/i1.png" alt="#" /> </div>
+            <div class="icon"><a href="i9-11900Kvsi9-10900K.html"> <img src="images/it_service/CPU.jpg" style="" alt="#" width="80" height="90" /></a> </div>
           </div>
-          <h4 class="theme_color">Data recovery</h4>
-          <p>Perspiciatis eos quos totam cum minima aut!</p>
+          <h4 class="theme_color">CPU</h4>
+          <p>&nbsp;</p>
+        </div>
+		  
+      </div>
+		<div class="col-lg-20 col-md-6 col-sm-6 col-xs-12">
+        <div class="full text_align_center margin_bottom_30">
+          <div class="center">
+            <div class="icon"><a href="3060vs3080.html"> <img src="images/it_service/rtx.jpg" style=""  alt="#" width="80" height="180" /> </div>
+          </div>
+          <h4 class="theme_color">GPU</h4>
+          <p>&nbsp;</p>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"> <img src="images/it_service/i2.png" alt="#" /> </div>
+            <div class="icon"><a href="860vs870.html"> <img src="images/it_service/SSD.jpg" style="" alt="#" width="80" height="80" /></a> </div>
           </div>
-          <h4 class="theme_color">Computer repair</h4>
-          <p>Perspiciatis eos quos totam cum minima aut!</p>
+          <h4 class="theme_color">SDD</h4>
+          <p>&nbsp;</p>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-lg-30 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"> <img src="images/it_service/i3.png" alt="#" /> </div>
+            <div class="icon"><a href="WD1TvsSeagate1T.html"> <img src="images/it_service/WD-Blue-1TB-2012.jpg" style="" alt="#" width="80" height="140" /></a> </div>
           </div>
-          <h4 class="theme_color">Mobile service</h4>
-          <p>Perspiciatis eos quos totam cum minima aut!</p>
+          <h4 class="theme_color">HDD</h4>
+          <p>&nbsp;</p>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div class="full text_align_center margin_bottom_30 margin_0">
+      <div class="col-lg-15 col-md-6 col-sm-6 col-xs-12">
+        <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"> <img src="images/it_service/i4.png" alt="#" /> </div>
+            <div class="icon"><a href="VengeancevsHyperX.html"> <img src="images/it_service/ram.jpg" style="" alt="#"  width="80" height="130"/></a> </div>
           </div>
-          <h4 class="theme_color">Network solutions</h4>
-          <p>Perspiciatis eos quos totam cum minima aut!</p>
+          <h4 class="theme_color">RAM</h4>
+          <p>&nbsp;</p>
         </div>
+		  
       </div>
-    </div>
+      
+</div>
+    <div class="row" style="margin-top: 35px">
+	</div>
+	
+	
     <div class="row" style="margin-top: 35px">
       <div class="col-md-8">
         <div class="full margin_bottom_30">
@@ -405,666 +567,7 @@
               <div class="panel-group" id="accordion">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <p class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-bar-chart" aria-hidden="true"></i> Complete Recovery from Local & External Drive<i class="fa fa-angle-down"></i></a> </p>
-                  </div>
-                  <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                      <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it 
-                        over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, 
-                        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <p class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-plane"></i> Recovery Photo, Image, Video and Audio<i class="fa fa-angle-down"></i></a> </p>
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it 
-                        over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, 
-                        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <p class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fa fa-star"></i> Mobile Phone Recovery<i class="fa fa-angle-down"></i></a> </p>
-                  </div>
-                  <div id="collapseThree" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it 
-                        over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, 
-                        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <p class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-bar-chart" aria-hidden="true"></i> Complete Recovery from Local & External Drive<i class="fa fa-angle-down"></i></a> </p>
-                  </div>
-                  <div id="collapseFour" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                      <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it 
-                        over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, 
-                        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="full" style="margin-top: 35px;">
-          <h3>Need file recovery?</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
-            quasi architecto beatae vitae dicta sunt explicabo.. </p>
-          <p><a class="btn main_bt" href="#">Read More</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1 light_silver gross_layout">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="main_heading text_align_left">
-            <h2>Service Process</h2>
-            <p class="large">Easy and effective way to get your device repaired.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si1.png" alt="#" /></div>
-                <h4 class="service-heading">Fast service</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si2.png" alt="#" /></div>
-                <h4 class="service-heading">Secure payments</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si3.png" alt="#" /></div>
-                <h4 class="service-heading">Expert team</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si4.png" alt="#" /></div>
-                <h4 class="service-heading">Affordable services</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si5.png" alt="#" /></div>
-                <h4 class="service-heading">90 Days warranty</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="full">
-              <div class="service_blog_inner">
-                <div class="icon text_align_left"><img src="images/it_service/si6.png" alt="#" /></div>
-                <h4 class="service-heading">Award winning</h4>
-                <p>Exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="main_heading text_align_center">
-            <h2>Our Products</h2>
-            <p class="large">We package the products with best services to make you a happy customer.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/1.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/2.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Kaspersky Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/3.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Mcafee Livesafe Antivirus</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/4.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/5.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/6.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Kaspersky Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/7.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Mcafee Livesafe Antivirus</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/8.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/1.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/2.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Kaspersky Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/3.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Mcafee Livesafe Antivirus</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$24.99</span><span class="new_price"> $12.49</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
-        <div class="product_list">
-          <div class="product_img"> <img class="img-responsive" src="images/it_service/4.jpg" alt=""> </div>
-          <div class="product_detail_btm">
-            <div class="center">
-              <h4><a href="it_shop_detail.html">Norton Internet Security</a></h4>
-            </div>
-            <div class="starratin">
-              <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-            </div>
-            <div class="product_price">
-              <p><span class="old_price">$15.00</span> – <span class="new_price">$25.00</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1 light_silver gross_layout right_gross_layout">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="main_heading text_align_right">
-            <h2>Our Feedback</h2>
-            <p class="large">Easy and effective way to get your device repaired.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row counter">
-      <div class="col-md-4"> </div>
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin_bottom_50">
-            <div class="text_align_right"><i class="fa fa-smile-o"></i></div>
-            <div class="text_align_right">
-              <p class="counter-heading text_align_right">Happy Customers</p>
-            </div>
-            <h5 class="counter-count">2150</h5>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin_bottom_50">
-            <div class="text_align_right"><i class="fa fa-laptop"></i></div>
-            <div class="text_align_right">
-              <p class="counter-heading text_align_right">Laptop Repaired</p>
-            </div>
-            <h5 class="counter-count">1280</h5>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin_bottom_50">
-            <div class="text_align_right"><i class="fa fa-desktop"></i></div>
-            <div class="text_align_right">
-              <p class="counter-heading">Computer Repaired</p>
-            </div>
-            <h5 class="counter-count">848</h5>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin_bottom_50">
-            <div class="text_align_right"><i class="fa fa-windows"></i></div>
-            <div class="text_align_right">
-              <p class="counter-heading">OS Installed</p>
-            </div>
-            <h5 class="counter-count">450</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="main_heading text_align_left">
-            <h2>Latest from Our Blog</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="full blog_colum">
-          <div class="blog_feature_img"> <img src="images/it_service/post-03.jpg" alt="#" /> </div>
-          <div class="post_time">
-            <p><i class="fa fa-clock-o"></i> April 16, 2018 ( In Maintenance )</p>
-          </div>
-          <div class="blog_feature_head">
-            <h4>Why Your Computer Hates You</h4>
-          </div>
-          <div class="blog_feature_cont">
-            <p>Lorem ipsum dolor sit amet, consectetur quam justo, pretium adipiscing elit. Vestibulum quam justo, pretium eu tempus ut, ...</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="full blog_colum">
-          <div class="blog_feature_img"> <img src="images/it_service/post-04.jpg" alt="#" /> </div>
-          <div class="post_time">
-            <p><i class="fa fa-clock-o"></i> April 16, 2018 ( In Maintenance )</p>
-          </div>
-          <div class="blog_feature_head">
-            <h4>Easy Tips To Computer Repair</h4>
-          </div>
-          <div class="blog_feature_cont">
-            <p>Lorem ipsum dolor sit amet, consectetur quam justo, pretium adipiscing elit. Vestibulum quam justo, pretium eu tempus ut, ...</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="full blog_colum">
-          <div class="blog_feature_img"> <img src="images/it_service/post-06.jpg" alt="#" /> </div>
-          <div class="post_time">
-            <p><i class="fa fa-clock-o"></i> April 16, 2018 ( In Maintenance )</p>
-          </div>
-          <div class="blog_feature_head">
-            <h4>Computer Maintenance 2018</h4>
-          </div>
-          <div class="blog_feature_cont">
-            <p>Lorem ipsum dolor sit amet, consectetur quam justo, pretium adipiscing elit. Vestibulum quam justo, pretium eu tempus ut, ...</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1 testmonial_section white_fonts">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="main_heading text_align_left">
-            <h2 style="text-transform: none;">What Clients Say?</h2>
-            <p class="large">Here are testimonials from clients..</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-7">
-        <div class="full">
-          <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ul class="carousel-indicators">
-              <li data-target="#testimonial_slider" data-slide-to="0" class="active"></li>
-              <li data-target="#testimonial_slider" data-slide-to="1"></li>
-              <li data-target="#testimonial_slider" data-slide-to="2"></li>
-            </ul>
-            <!-- The slideshow -->
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="testimonial-container">
-                  <div class="testimonial-content"> You guys rock! Thank you for making it painless, pleasant and most of all hassle free! I wish I would have thought of it first. 
-                    I am really satisfied with my first laptop service. </div>
-                  <div class="testimonial-photo"> <img src="images/it_service/client1.jpg" class="img-responsive" alt="#" width="150" height="150"> </div>
-                  <div class="testimonial-meta">
-                    <h4>Maria Anderson</h4>
-                    <span class="testimonial-position">CFO, Tech NY</span> </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="testimonial-container">
-                  <div class="testimonial-content"> You guys rock! Thank you for making it painless, pleasant and most of all hassle free! I wish I would have thought of it first. 
-                    I am really satisfied with my first laptop service. </div>
-                  <div class="testimonial-photo"> <img src="images/it_service/client2.jpg" class="img-responsive" alt="#" width="150" height="150"> </div>
-                  <div class="testimonial-meta">
-                    <h4>Maria Anderson</h4>
-                    <span class="testimonial-position">CFO, Tech NY</span> </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="testimonial-container">
-                  <div class="testimonial-content"> You guys rock! Thank you for making it painless, pleasant and most of all hassle free! I wish I would have thought of it first. 
-                    I am really satisfied with my first laptop service. </div>
-                  <div class="testimonial-photo"> <img src="images/it_service/client3.jpg" class="img-responsive" alt="#" width="150" height="150"> </div>
-                  <div class="testimonial-meta">
-                    <h4>Maria Anderson</h4>
-                    <span class="testimonial-position">CFO, Tech NY</span> </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-5">
-        <div class="full"> </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <div class="contact_us_section">
-            <div class="call_icon"> <img src="images/it_service/phone_icon.png" alt="#" /> </div>
-            <div class="inner_cont">
-              <h2>REQUEST A FREE QUOTE</h2>
-              <p>Get answers and advice from people you want it from.</p>
-            </div>
-            <div class="button_Section_cont"> <a class="btn dark_gray_bt" href="it_contact.html">Contact us</a> </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- section -->
-<div class="section padding_layout_1" style="padding: 50px 0;">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="full">
-          <ul class="brand_list">
-            <li><img src="images/it_service/brand_icon1.png" alt="#" /></li>
-            <li><img src="images/it_service/brand_icon2.png" alt="#" /></li>
-            <li><img src="images/it_service/brand_icon3.png" alt="#" /></li>
-            <li><img src="images/it_service/brand_icon4.png" alt="#" /></li>
-            <li><img src="images/it_service/brand_icon5.png" alt="#" /></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end section -->
-<!-- Modal -->
-<div class="modal fade" id="search_bar" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-close"></i></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-8 col-md-8 col-sm-8 offset-lg-2 offset-md-2 offset-sm-2 col-xs-10 col-xs-offset-1">
-            <div class="navbar-search">
-              <form action="#" method="get" id="search-global-form" class="search-global">
-                <input type="text" placeholder="Type to search" autocomplete="off" name="s" id="search" value="" class="search-global__input">
-                <button class="search-global__btn"><i class="fa fa-search"></i></button>
-                <div class="search-global__note">Begin typing your search above and press return to search.</div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Model search bar -->
-<!-- footer -->
-<footer class="footer_style_2">
-  <div class="container-fuild">
-    <div class="row">
-      <div class="map_section">
-        <div id="map"></div>
-      </div>
-      <div class="footer_blog">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="main-heading left_text">
-              <h2>It Next Theme</h2>
-            </div>
-            <p>Tincidunt elit magnis nulla facilisis. Dolor sagittis maecenas. Sapien nunc amet ultrices, dolores sit ipsum velit purus aliquet, massa fringilla leo orci.</p>
-            <ul class="social_icons">
-              <li class="social-icon fb"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-              <li class="social-icon tw"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-              <li class="social-icon gp"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <div class="main-heading left_text">
-              <h2>Additional links</h2>
-            </div>
-            <ul class="footer-menu">
-              <li><a href="it_about.html"><i class="fa fa-angle-right"></i> About us</a></li>
-              <li><a href="it_term_condition.html"><i class="fa fa-angle-right"></i> Terms and conditions</a></li>
-              <li><a href="it_privacy_policy.html"><i class="fa fa-angle-right"></i> Privacy policy</a></li>
-              <li><a href="it_news.html"><i class="fa fa-angle-right"></i> News</a></li>
-              <li><a href="it_contact.html"><i class="fa fa-angle-right"></i> Contact us</a></li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <div class="main-heading left_text">
-              <h2>Services</h2>
-            </div>
-            <ul class="footer-menu">
-              <li><a href="it_data_recovery.html"><i class="fa fa-angle-right"></i> Data recovery</a></li>
-              <li><a href="it_computer_repair.html"><i class="fa fa-angle-right"></i> Computer repair</a></li>
-              <li><a href="it_mobile_service.html"><i class="fa fa-angle-right"></i> Mobile service</a></li>
-              <li><a href="it_network_solution.html"><i class="fa fa-angle-right"></i> Network solutions</a></li>
-              <li><a href="it_techn_support.html"><i class="fa fa-angle-right"></i> Technical support</a></li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <div class="main-heading left_text">
-              <h2>Contact us</h2>
-            </div>
-            <p>123 Second Street Fifth Avenue,<br>
-              Manhattan, New York<br>
-              <span style="font-size:18px;"><a href="tel:+9876543210">+987 654 3210</a></span></p>
-            <div class="footer_mail-section">
-              <form>
-                <fieldset>
-                <div class="field">
-                  <input placeholder="Email" type="text">
-                  <button class="button_custom"><i class="fa fa-envelope" aria-hidden="true"></i></button>
-                </div>
-                </fieldset>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cprt">
-        <p>ItNext © Copyrights 2019 Design by html.design</p>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- end footer -->
+
 <!-- js section -->
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

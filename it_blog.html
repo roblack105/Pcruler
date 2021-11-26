@@ -129,6 +129,38 @@
 	
 	
 <script async>
+	
+	
+	
+	 var total = 0;
+   $("#items").on('click', ".item", function() {        
+        $(this).appendTo("#basket");
+        getTotal()
+   });
+    $("#basket").on('click', ".item", function() {      
+      $(this).appendTo("#items");   
+      getTotal()
+   });
+
+
+  function getTotal(){
+     total = 0;
+     $("#basket").find('.price').each(function(i){
+        total += parseInt($(this).text().slice(0,-1));
+        if(i + 1 === $("#basket").find('.item').length){
+         $('.total_price').text(total+'$');
+       } 
+     });
+   } 
+	
+	
+	
+	
+	
+	
+	
+	
+	
     var last_cpu_id = null;
     $(document).ready(function() {
 
@@ -171,90 +203,138 @@
 
 
 	
-	<div class="card">
-    <div class="card-header">
-     <H1>   Create a PC Build  </H1>  </div>
+<div class="card">
+  <div class="card-header">
+  <H1>   Customize Build  </H1>  </div>
     <div style="margin: auto" class="card-body">
-      <div class="form-group">
-          <label for="cpu-select">&nbsp;</label>
+		 <div class="form-group">
+            <label for="gpu-select">Motherboard</label>
+            <select id="mb" class="form-control">
+              <option value="">Select a Motherboard..</option>
+                                               
+                                    <option value="329" >NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" >NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" >NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" >NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" >NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+          </select>
+      </div>
+        <div class="form-group">
+            <label for="cpu-select">Processor</label>
+          <select id="cpu" class="form-control">
+            <option value="">Select a CPU..</option>
+   <option value="329" price="329">NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" price="399">NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" price="499">NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" price="599">NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" price="699">NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+                            </select>
+        </div>
+        <div class="form-group">
+            <label for="gpu-select">Graphics Card</label>
+            <select id="gpu" class="form-control">
+              <option value="">Select a GPU..</option>
+                                               
+                                    <option value="329" price="329">NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" price="399">NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" price="499">NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" price="599">NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" price="699">NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+          </select>
+        </div>
+		 <div class="form-group">
+            <label for="gpu-select">RAM</label>
+            <select id="ram" class="form-control">
+              <option value="">Select a RAM..</option>
+                                               
+                                    <option value="329" price="329">NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" price="399">NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" price="499">NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" price="599">NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" price="699">NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+          </select>
+      </div> <div class="form-group">
+            <label for="gpu-select">Storage</label>
+            <select id="stg" class="form-control">
+              <option value="">Select a storage..</option>
+                                               
+                                    <option value="329" price="329">NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" price="399">NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" price="499">NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" price="599">NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" price="699">NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+        </select>
+        </div><div class="form-group">
+            <label for="gpu-select">Storage (optional)</label>
+            <select id="stgo" class="form-control">
+              <option value="">Select a optional storage..</option>
+                                               
+                                    <option value="329" price="329">NVIDIA GeForce RTX 3060 ($329)</option>
+                                    <option value="399" price="399">NVIDIA GeForce RTX 3060 Ti ($399)</option>
+                                    <option value="499" price="499">NVIDIA GeForce RTX 3070 ($499)</option>
+                                    <option value="599" price="599">NVIDIA GeForce RTX 3070 Ti ($599)</option>
+                                    <option value="699" price="699">NVIDIA GeForce RTX 3080 ($699)</option>
+                   
+        </select>
+        </div>
+      
+<div class="row">
+        <div class="col">
+                <div class="form-group">
+                    
+                  <form id="tax_form" name="tax_form">
+
+  <label for="Price">Price</label>
+<label class="total">Total</label>
+  <input type="text" id="Total" readonly>
+  <input type="submit" name="resulet" />
+</form>
+<script>
+var calculateTax = function(event) {
+  event.preventDefault();
+
+  let ram = document.getElementById("ram").value;
+	  let mb = document.getElementById("mb").value;
+  let cpu = document.getElementById("cpu").value;
+  let gpu = document.getElementById("gpu").value;
+  let stg = document.getElementById("stg").value;
+	 let stgo = document.getElementById("stgo").value;
+
+
+
+
+	
+  var tax = 0.0;
+  document.getElementById("Total").value =  Number(mb) + Number(cpu) + Number(gpu) + Number(stg) +  Number(stgo) + Number(ram);
+	  document.getElementById("Total1").value = ( Number(mb) + Number(cpu) + Number(gpu) + (Number(stg) / 2) +  (Number(stgo) / 3)+ Number(ram)) *4.0 * (0.01);
+
+}
+var form = document.getElementById('tax_form');
+form.addEventListener('submit', calculateTax, false);
+</script>
+                </div>
+      </div>
+			  <div class="col">
+                <div class="form-group">
+                    <label for="res-select">Build score</label>
+                      <input type="text" id="Total1" readonly   maxlength="4"   >
+
+                </div>
+            </div>
+           
+                
+            
       </div>
 </div>
 </div>
 
 <!-- end section-->
- <div class="header_bottom">
-    <div class="container">
-      <div class="card-columns">
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-          <!-- logo start -->
-          <div class="logo"> <a href="it_home.html"></a> </div>
-          <!-- logo end -->
-        </div>
-        <div class="col-lg-12 col-md-16 col-sm-12 col-xs-12">
-                 <!-- menu start -->
-                 <div class="menu_side">
-                  <div id="navbar_menu">
-                    <ul class="first-ul">
-                      <li> <a class="active" href="it_home.html">Home</a>
-                       <!--<ul>
-                          <li><a href="it_home.html">It Home Page</a></li>
-                          <li><a href="it_home_dark.html">It Dark Home Page</a></li>
-                        </ul>---> 
-                      </li>
-                      <li><a href="it_about.html">About Us</a></li>
-                      <li> <a href="it_service.html">Comparison</a>
-                        <ul>
-                          <li><a href="it_service_list.html">PC Parts</a></li>
-                          <li><a href="it_service_detail.html">PC Companies</a></li>
-                        </ul>
-                      </li>
-                      <li> <a href="it_blog.html">Build</a>
-                        <ul>
-                          <li><a href="it_blog.html">Gaming</a></li>
-                          <li><a href="it_blog_grid.html">Desktop</a></li>
-                          <li><a href="it_blog_detail.html">WorkStation</a></li>
-                        </ul>
-                      </li>
-                      <li> <a href="#">hot deals</a>
-                        <ul>
-                          <li><a href="it_career.html">Career</a></li>
-                          <li><a href="it_price.html">Pricing</a></li>
-                          <li><a href="it_faq.html">Faq</a></li>
-                          <li><a href="it_privacy_policy.html">Privacy Policy</a></li>
-                          <li><a href="it_error.html">Error 404</a></li>
-                        </ul>
-                      </li>
-                      <li> <a href="it_shop.html">FPS Test</a>
-                        <ul>
-                          <li><a href="it_shop.html">Gaming</a></li>
-                          <li><a href="it_shop_detail.html">Desktop</a></li>
-                          <li><a href="it_cart.html">ProGaming</a></li>
-                          <li><a href="it_checkout.html">Others</a></li>
-                        </ul>
-                      </li>
-                      <li> <a href="it_contact.html">hardware</a>
-                        <ul>
-                          <li><a href="it_contact.html">CPU</a></li>
-                          <li><a href="it_contact_2.html">GPU</a></li>
-                          <li><a href="it_contact.html">RAM</a></li>
-                          <li><a href="it_contact_2.html">Storage</a></li>
-                          <li><a href="it_contact.html">Motherboard</a></li>
-                          <li><a href="it_contact_2.html">fans</a></li>
-                          <li><a href="it_contact.html">Case</a></li> 
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="search_icon">
-                    <ul>
-                      <li><a href="#" data-toggle="modal" data-target="#search_bar"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- menu end -->
-        </div>
-      </div>
-    </div>
-  </div>
+
 <!-- section ->
 <div class="section padding_layout_1" style="padding: 50px 0;">
   <div class="container">

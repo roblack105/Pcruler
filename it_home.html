@@ -1,6 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	
+	
+	
+	
+	<script>
+		
+		
+		
+		function show() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	  myDIV1.style.display ="none";
+  } else {
+    x.style.display = "none";
+	  myDIV1.style.display ="block";
+  }
+  
+}
+
+			function show1() {
+  var x = document.getElementById("myDIV2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	  myDIV1.style.display ="none";
+  } else {
+    x.style.display = "none";
+	  myDIV1.style.display ="block";
+  }
+  
+}
+		
+		
+		
+		
+		
+		
+$('label').on('click', function(){
+var color = $(this).next().css('color');
+  console.log(color);
+  if (color == 'rgb(177, 177, 177)') {
+    $(this).next().addClass('grey');
+  }
+  else { 
+    $(this).next().removeClass('grey');
+  }
+});
+
+$.fn.digits = function(){ 
+    return this.each(function(){ 
+        $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+    })
+}
+    
+$('#slider').slider({
+	range: true,
+	min: 0,
+	max: 20000,
+	values: [ 1300, 14000 ],
+	slide: function(event, ui) {
+		
+		$('.minPrice').html(ui.values[ 0 ]).digits();
+		$('.maxPrice').html(ui.values[ 1 ]).digits();
+		$('.price-range-both').html('<i>$' + ui.values[ 0 ] + ' - </i>$' + ui.values[ 1 ] );
+	}
+});
+
+
+$('.ui-slider-handle:eq(0)').append('<span class="price-range-min value">' + $('#slider').slider('values', 0 ) + '</span>');
+
+$('.ui-slider-handle:eq(1)').append('<span class="price-range-max value">' + $('#slider').slider('values', 1 ) + '</span>');
+
+var navHeight;
+  navHeight = $(window).height() - 70;
+  if ($(window).scrollTop() > navHeight) {
+    $('nav').addClass('fixed');
+  } else {
+    $('nav').removeClass('fixed');
+  }
+
+$(window).on('scroll', function() {
+	var navHeight = $(window).height() - 55;
+  if ($(window).scrollTop() > navHeight){
+  	$('#topBar').addClass('fixed');
+  }else{
+    $('#topBar').removeClass('fixed');
+    }
+});
+</script>
+
 <!-- basic -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -357,6 +447,54 @@
 <!-- section -->
 <div class="section padding_layout_1">
   <div class="container">
+    
+	
+	
+   
+
+
+		  
+  <div id="myDIV1" width="100%" style="display: block";>
+	   <div class="main_heading text_align_center">
+		  <h2>&nbsp;let's get start it</h2>
+            <p class="large">&nbsp;</p>
+	  </div>
+		  <table width="100%" border="0" style="align-content: center">
+  <tbody>
+    <tr>
+      <th scope="col"><img style="margin-top: 36px; margin-right: 161px; margin-left: 185px; margin-bottom: 36px;"  src="images/comparison.png"../../../Pictures/غلات صغيره/img_1455883634_509.jpg"" onclick="show1()"  width="200" height="200" alt=""/></th>
+      <th scope="col"><img style="margin-top: 36px;
+	margin-right: 161px;
+	margin-left: 161px;
+	margin-bottom: 36px;" src="images/Build.png" onclick="show()"  width="200" height="200" alt=""/></th>
+		
+  
+      </tr>
+  </tbody>
+</table>
+</div>
+<div id="myDIV" style="display: none";>
+  <div class="main_heading text_align_center">
+		  <h2>Build</h2>
+            <p class="large">CHOOSE A BUILD</p>
+  </div>
+		  
+		  <table  width="100%" border="0" style="align-content: center">
+  <tbody>
+    <tr>
+      <th scope="col"><img style="margin-top: 36px; margin-right: -30px; margin-left: 14px; margin-bottom: 36px;"  src="images/gaming Build.png"  width="200" height="200" alt=""/></th>
+      <th scope="col"><img  style="margin-top: 36px; margin-right: 212px; margin-left: 110px; margin-bottom: 36px;" src="images/Workstation.png"  width="200" height="200" alt=""/></th>
+		<th scope="col"><img  style="margin-top: 36px; margin-right: 0px; margin-left: -128px; margin-bottom: 36px;" src="images/Desktop.png"  width="200" height="200" alt=""/></th>
+		<th scope="col"><img  style="margin-top: 36px; margin-right: 33px; margin-left: 90px; margin-bottom: 36px;" src="images/Custom.png" width="200" height="200" alt=""/></th>
+    </tr>
+  </tbody>
+</table>		  
+</div>
+
+		  <div id="myDIV2" style="display: none";>
+
+		  <div class="section padding_layout_1">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="full">
@@ -367,11 +505,11 @@
         </div>
       </div>
     </div>
-    <div style="align: center" class="row">
+<div style="align: center" class="row">
       <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"><a href="i9-11900Kvsi9-10900K.html"> <img src="images/it_service/CPU.jpg" alt="#" width="80" height="90" /></a> </div>
+            <div class="icon"><a href="i9-11900Kvsi9-10900K.html"> <img src="images/it_service/CPU.jpg" style="" alt="#" width="80" height="90" /></a> </div>
           </div>
           <h4 class="theme_color">CPU</h4>
           <p>&nbsp;</p>
@@ -381,7 +519,7 @@
 		<div class="col-lg-20 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"><a href="3060vs3080.html"> <img src="images/it_service/rtx.jpg" alt="#" width="80" height="180" /> </div>
+            <div class="icon"><a href="3060vs3080.html"> <img src="images/it_service/rtx.jpg" style=""  alt="#" width="80" height="180" /> </div>
           </div>
           <h4 class="theme_color">GPU</h4>
           <p>&nbsp;</p>
@@ -390,7 +528,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"><a href="860vs870.html"> <img src="images/it_service/SSD.jpg" alt="#" width="80" height="80" /></a> </div>
+            <div class="icon"><a href="860vs870.html"> <img src="images/it_service/SSD.jpg" style="" alt="#" width="80" height="80" /></a> </div>
           </div>
           <h4 class="theme_color">SDD</h4>
           <p>&nbsp;</p>
@@ -399,7 +537,7 @@
       <div class="col-lg-30 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"><a href="WD1TvsSeagate1T.html"> <img src="images/it_service/WD-Blue-1TB-2012.jpg" alt="#" width="80" height="140" /></a> </div>
+            <div class="icon"><a href="WD1TvsSeagate1T.html"> <img src="images/it_service/WD-Blue-1TB-2012.jpg" style="" alt="#" width="80" height="140" /></a> </div>
           </div>
           <h4 class="theme_color">HDD</h4>
           <p>&nbsp;</p>
@@ -408,7 +546,7 @@
       <div class="col-lg-15 col-md-6 col-sm-6 col-xs-12">
         <div class="full text_align_center margin_bottom_30">
           <div class="center">
-            <div class="icon"><a href="VengeancevsHyperX.html"> <img src="images/it_service/ram.jpg" alt="#"  width="80" height="130"/></a> </div>
+            <div class="icon"><a href="VengeancevsHyperX.html"> <img src="images/it_service/ram.jpg" style="" alt="#"  width="80" height="130"/></a> </div>
           </div>
           <h4 class="theme_color">RAM</h4>
           <p>&nbsp;</p>
@@ -416,7 +554,11 @@
 		  
       </div>
       
-    </div>
+</div>
+    <div class="row" style="margin-top: 35px">
+	</div>
+	
+	
     <div class="row" style="margin-top: 35px">
       <div class="col-md-8">
         <div class="full margin_bottom_30">

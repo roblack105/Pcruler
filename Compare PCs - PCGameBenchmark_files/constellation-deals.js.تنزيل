@@ -1,0 +1,257 @@
+
+function loadDeals(type) {
+
+
+    let wrapper = document.getElementById('constellation_deals_wrapper');
+
+   
+
+
+    document.getElementById('constellation_deals_spinner').style.display='block';
+    
+    
+    if (type == 'refresh') {
+        if (document.getElementById('constellation_deals_list')) {
+            document.getElementById('constellation_deals_list').style.display='none';
+        }
+
+        if (document.getElementById('constellation_deals_load_more')) {
+            document.getElementById('constellation_deals_load_more').style.display='none';
+        }
+    }
+    /// Check for values
+
+
+
+    let api = 'https://constellation.network-n.com/api/newapi.php?constellation_key='+constellation_key+'&constellation_site='+constellation_site+'&action=getDealsByFormat&currency='+new_affiliates_defaultRegion;
+    if (wrapper.getAttribute('data-storeid') > 0) {
+        api = api + '&storeid='+(wrapper.getAttribute('data-storeid')/1);
+    }
+    if (wrapper.getAttribute('data-format') > '') {
+        api = api + '&format='+encodeURIComponent(wrapper.getAttribute('data-format'));
+    } else if (wrapper.getAttribute('data-formats') > '') {
+        api = api + '&format='+encodeURIComponent(wrapper.getAttribute('data-formats'));
+    } else {
+        api = api + '&format='+encodeURIComponent(constellation_deals_formats);
+    }
+
+    if (wrapper.getAttribute('data-rows')) {
+        api = api + '&rows='+wrapper.getAttribute('data-rows');
+    } else {
+        api = api + '&rows='+constellation_deals_rows;
+    }
+    if (wrapper.getAttribute('data-discount')) {
+        api = api + '&mindiscount='+wrapper.getAttribute('data-discount');
+    } else {
+        api = api + '&rows='+constellation_deals_mindiscount;
+    }
+
+    if (wrapper.getAttribute('data-searchterm') > '') {
+        api = api + '&searchterm='+encodeURIComponent(wrapper.getAttribute('data-searchterm'))
+    }
+    if (wrapper.getAttribute('data-start') > 0) {
+        api = api + '&start='+(wrapper.getAttribute('data-start')/1);
+    }
+    api = api + '&alwaysreturn=true';
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById('constellation_deals_spinner').style.display='none';
+
+        var deallist = '';
+        var results = JSON.parse(this.responseText);
+        if (results.discounts) {
+            for (var d=0; d<results.discounts.length; d++) {
+                deallist = deallist + constellation_deals_render_deal(results.discounts[d]);
+            }
+        }
+        if (type == 'load') {
+            deallist = "<div id='constellation_deals_list'>"+deallist+'</div>';
+            document.getElementById("constellation_deals_wrapper").innerHTML = constellation_deals_render_filters(results.stores, results.formats) + deallist + constellation_deals_render_pagination(results, true);
+        } else if (type == 'refresh') {
+            document.getElementById("constellation_deals_list").innerHTML = deallist;
+            if (document.getElementById("constellation_deals_load_more")) { document.getElementById("constellation_deals_load_more").innerHTML = constellation_deals_render_pagination(results, false) }
+        } else if (type == 'append') {
+            document.getElementById("constellation_deals_list").innerHTML = document.getElementById("constellation_deals_list").innerHTML + deallist
+            if (document.getElementById("constellation_deals_load_more")) { document.getElementById("constellation_deals_load_more").innerHTML = constellation_deals_render_pagination(results, false) }
+        }
+
+        document.getElementById('constellation_deals_list').style.display='block';
+
+            
+        if (document.getElementById('constellation_deals_load_more')) {
+            document.getElementById('constellation_deals_load_more').style.display='block';
+        }
+        document.getElementById("product_name").addEventListener("keyup", 
+            constellation_deals_debounce(function(){
+                wrapper.setAttribute('data-searchterm', document.getElementById("product_name").value);
+                wrapper.setAttribute('data-start', 0);
+                loadDeals('refresh');
+            },500)
+        );
+        document.getElementById("store_filter").addEventListener("change", function() {
+                wrapper.setAttribute('data-storeid', document.getElementById("store_filter").value);
+                wrapper.setAttribute('data-start', 0);
+                loadDeals('refresh');
+            }
+        );
+        document.getElementById("format_filter").addEventListener("change", function() {
+            wrapper.setAttribute('data-format', document.getElementById("format_filter").value);
+            wrapper.setAttribute('data-start', 0);
+            loadDeals('refresh');
+        }
+    );
+        document.getElementById("constellation_deals_load_more").addEventListener("click", function() {
+                document.getElementById("constellation_deals_load_more").style.display="none";
+                if (wrapper.getAttribute('data-start') > 0) {
+                    var start = (wrapper.getAttribute('data-start')/1) + (constellation_deals_rows/1);
+                    wrapper.setAttribute('data-start', start );
+                } else {
+                    wrapper.setAttribute('data-start', constellation_deals_rows);
+                }
+            
+                loadDeals('append');
+            }
+        );
+        constellation_deals_load_more
+
+      }
+    };
+    xhttp.open("GET", api);
+    xhttp.send();
+  
+
+}
+document.addEventListener('DOMContentLoaded', (event) => {
+    if (document.getElementById('constellation_deals_wrapper')) {
+        document.getElementById('constellation_deals_wrapper').innerHTML = '';
+        if (!document.getElementById('constellation_deals_spinner')) {
+            document.getElementById('constellation_deals_wrapper').insertAdjacentHTML('afterend',  '<div id="constellation_deals_spinner"><svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        }
+
+        window.addEventListener('ConstellationReady', function(e) {
+            loadDeals('load');
+        })
+    }
+
+
+});
+
+window.addEventListener('NextPageInView', function(e) {
+    if (document.getElementById('constellation_deals_wrapper')) {
+        document.getElementById('constellation_deals_wrapper').innerHTML = '';
+        if (!document.getElementById('constellation_deals_spinner')) {
+            document.getElementById('constellation_deals_wrapper').insertAdjacentHTML('afterend',  '<div id="constellation_deals_spinner"><svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        }
+        loadDeals('load');
+    }
+})
+
+function constellation_deals_render_filters(stores, formats) {
+    var options = "";
+//    var searchterm = "";
+    var formatoptions = "";
+    
+    for (var s=0; s<stores.length; s++) {
+         var store = stores[s];
+         options = options + `
+            <option value="`+store.store_id+`">`+store.store_name+`</option>
+         `;
+    }
+
+
+    for (var s=0; s<formats.length; s++) {
+        var format = formats[s];
+        formatoptions = formatoptions + `
+           <option value="`+format+`">`+format+`</option>
+        `;
+    }
+    return `
+        <div class="constellation_deals_filters">
+            <div class="constellation_deals_store_filter">
+                <select id="store_filter">
+                    <option value="">All Stores</option>
+                    `+options+`
+                </select>
+            </div>
+            <div class="constellation_deals_search_product">
+                <input type="text" name="product_name" value="" id="product_name" placeholder="Product name">
+            </div>
+            <div class="constellation_deals_select_category">
+                <select id="format_filter">
+                    <option value="">All Categories</option>
+                    `+formatoptions+`
+                </select>
+            </div>
+        </div>
+    `;
+}
+
+function constellation_deals_render_pagination(results, wrapper) {
+
+    if (results.discounts.length == constellation_deals_rows && wrapper) {
+        return '<div id="constellation_deals_load_more">Load More</div><div class="constellation_deals-clear"></div>';
+    } else if (results.discounts.length == constellation_deals_rows) {
+        document.getElementById('constellation_deals_load_more').style.display = 'block';
+        return 'Load More';
+    } else {
+        if (document.getElementById('constellation_deals_load_more')) {
+            document.getElementById('constellation_deals_load_more').style.display = 'none';
+        }
+        return '';
+    }
+}
+
+
+var constellation_deals_debounce = function (func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+function constellation_deals_render_deal(deal) {
+    if (deal.store_image != '') {
+        deal.store_name="<img alt='"+deal.store_name+" logo' title='"+deal.store_name+"' src='"+deal.store_image+"' class='constellation_deals-storeimage'>";
+    }
+    if (deal.product_link) {
+        return `
+            <div class="constellation_deals-deal">
+                <div class="constellation_deals-imagewrapper">
+                    <img alt="Product image for `+deal.product_name+`" src="`+deal.image+`" class="constellation_deals-image">
+                    <div class="constellation_deals-condition">`+deal.product_condition+`</div>
+                    <!-- div class="constellation_deals-discount"><span>-`+deal.discount+`%</span></div -->
+                </div>
+                <div class="constellation_deals-title">`+deal.product_name+`</div>
+                <div class="constellation_deals-linkblock">
+                    <div class="constellation_deals-store_name">`+deal.store_name+`</div>
+                    <div class="constellation_deals-price">
+                        <div class="constellation_deals-previousprice price">`+parseCurrency(deal.retail_currency)+deal.retail_price+`</div>
+                        <div class="constellation_deals-bestprice price">`+parseCurrency(deal.retail_currency)+deal.product_price+`</div>
+                    </div>
+                    <div class="constellation_deals-button"><a href="`+deal.product_link+`" target="_blank" rel="sponsored noopener nofollow">Save `+deal.discount+`% &gt;</a></div>
+                </div>
+            </div>  
+            <div class="constellation_deals-clear"></div>
+        `;
+    } else {
+        return '';
+    }
+}
+
+
+function parseCurrency(currency) {
+    if (currency == 'USD') { return '$'; }
+    if (currency == 'GBP') { return '£'; }
+    if (currency == 'EUR') { return '€'; }
+    return currency;
+}
+

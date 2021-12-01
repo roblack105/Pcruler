@@ -1,0 +1,495 @@
+var stores = []
+
+
+function new_affiliates_loadStores() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			stores['All Stores'] = '';
+			loadedStores = JSON.parse(xhttp.responseText);
+			for (var s = 0; s < loadedStores.length; s++) {
+				
+				if (loadedStores[s].store_id > -1) {
+					stores['id_'+loadedStores[s].store_id] = new Array();
+					stores['id_'+loadedStores[s].store_id]['store_name'] = loadedStores[s].store_name;
+					stores['id_'+loadedStores[s].store_id]['store_image'] = loadedStores[s].store_image;
+				}
+			}
+			new_affiliates_geoCheck();
+		} 
+	};
+	xhttp.open("GET", 'https://constellation.network-n.com/api/newapi.php?constellation_site='+parent.constellation_site+'&constellation_key='+constellation_key+'&action=getStores', true);
+	xhttp.send();
+}
+
+function new_affiliates_geoCheck() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			let lines = xhttp.responseText.split('\n');
+			let keyValue;
+			let trace = [];
+
+			lines.forEach(line => {
+				keyValue = line.split('=');
+				trace[keyValue[0]] = decodeURIComponent(keyValue[1] || '');
+				if (keyValue[0] === 'loc' && trace['loc'] === 'GB'){
+					document.body.classList.add('geoloc_GB')
+					
+					new_affiliates_defaultRegion = 'GBP';
+					new_affiliates_defaultCurrency = '£';
+				}
+			});
+
+			let event = new CustomEvent('ConstellationReady');
+			console.log('Constellation Loaded');
+			dispatchEvent(event);
+			new_affiliates_parseEmbeds();
+		} 
+	};
+	xhttp.open("GET", 'https://www.pcgamesn.com/cdn-cgi/trace', true);
+	xhttp.send();
+}
+
+
+
+
+function new_affiliates_parseEmbeds() {
+
+    var embeds = document.getElementsByClassName("new_affiliate_embed");
+    if (embeds.length > 0) {
+        for (var e=0; e<embeds.length; e++) {
+			var embed = embeds[e];
+
+            if (!embed.getAttribute('data-processed')) {
+                // Get region
+				embed.innerHTML = '<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>';
+
+				embed.setAttribute('id', 'new_affiliate_embed_'+e);
+
+                var region = new_affiliates_getRegion();
+				var title = '';
+				if (region == 'GBP') {
+					var ean = embed.getAttribute('data-gbp-ean');
+					title = embed.getAttribute('data-gbp-title');
+					var type = embed.getAttribute('data-gbp-type');
+					var loc = 'gbp';
+				} else if (region == 'USD') {
+					var ean = embed.getAttribute('data-usd-ean');
+					title = embed.getAttribute('data-usd-title');
+					var type = embed.getAttribute('data-usd-type');
+					var loc = 'usd';
+
+				}
+				
+				if (ean) { 
+						var lookupurl = 'https://constellation.network-n.com/api/newapi.php?constellation_site='+parent.constellation_site+'&constellation_key='+constellation_key+'&action=getProduct&currency='+region.toLowerCase()+'&ean='+ean;
+						
+						if (region == 'GBP') {
+							if (embed.getAttribute('data-gbp-store') && embed.getAttribute('data-gbp-store') != '') {
+								lookupurl = lookupurl + '&storeid=' + embed.getAttribute('data-gbp-store');
+							}
+							if (embed.getAttribute('data-gbp-prioritystore') && embed.getAttribute('data-gbp-prioritystore') != '') {
+								lookupurl = lookupurl + '&prioritystoreid=' + embed.getAttribute('data-gbp-prioritystore');
+							}
+						} else if (region == 'USD') {
+							if (embed.getAttribute('data-usd-store') && embed.getAttribute('data-usd-store') != '') {
+								lookupurl = lookupurl + '&storeid=' + embed.getAttribute('data-usd-store');
+							}
+							if (embed.getAttribute('data-usd-prioritystore') && embed.getAttribute('data-usd-prioritystore') != '') {
+								lookupurl = lookupurl + '&prioritystoreid=' + embed.getAttribute('data-usd-prioritystore');
+							}
+						}
+						
+						
+
+						new_affiliates_addDataToEmbed('new_affiliate_embed_'+e, embed, lookupurl, ean, region, title);
+						
+					
+					
+				} else if (type == 'singlelink') {
+					product = new Array();
+					product[0] = new Array();
+					product[0]['product_name'] = title;
+					product[0]['retail_currency'] = region;
+					product[0]['retail_price'] = embed.getAttribute('data-'+loc+'-retailprice');
+					product[0]['image'] = embed.getAttribute('data-'+loc+'-image');
+					product[0]['prices'] = new Array();
+					product[0]['prices'][0] = new Array();
+					product[0]['prices'][0]['store_name'] = stores['id_'+embed.getAttribute('data-'+loc+'-store')]['store_name'];
+					product[0]['prices'][0]['store_image'] = stores['id_'+embed.getAttribute('data-'+loc+'-store')]['store_image'];
+					product[0]['prices'][0]['product_price'] = embed.getAttribute('data-'+loc+'-price');
+					product[0]['prices'][0]['product_link'] = embed.getAttribute('data-'+loc+'-link');
+					new_affiliates_renderWidget('new_affiliate_embed_'+e, embed, product, ean, region, title);
+				} else {
+					embed.style.display = 'none';
+				}
+
+                embed.setAttribute('data-processed', true);
+            }
+        }
+    }
+
+
+    var embeds = document.getElementsByClassName("constellation_multi_widget");
+    if (embeds.length > 0) {
+        for (var e=0; e<embeds.length; e++) {
+			var embed = embeds[e];
+
+            if (!embed.getAttribute('data-processed')) {
+                // Get region
+				embed.innerHTML = '<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>';
+
+				embed.setAttribute('id', 'constellation_multi_widget_'+e);
+
+                var region = new_affiliates_getRegion();
+				var widgetdata = JSON.parse(embed.getAttribute('data-widgetdata'));
+
+
+				if (region == 'GBP') {
+					products = widgetdata.gbp;
+					var loc = 'gbp';
+				} else if (region == 'USD') {
+					products = widgetdata.usd;
+					var loc = 'usd';
+				}
+
+				var ean='';
+				for (var product in products) {
+					var product=products[product];
+					if (ean != '') {
+						ean = ean + '|' + product.ean;
+					} else {
+						ean = product.ean;
+					}
+
+				}
+				var lookupurl = 'https://constellation.network-n.com/api/newapi.php?constellation_site='+parent.constellation_site+'&constellation_key='+constellation_key+'&action=getProduct&currency='+region.toLowerCase()+'&ean='+ean;
+			
+				new_affiliates_addMultiWidgetDataToEmbed('constellation_multi_widget_'+e, embed, lookupurl, products);
+				embed.style.height='auto';
+
+                embed.setAttribute('data-processed', true);
+            }
+        }
+    }
+
+}
+
+function new_affiliates_urlExists(url)
+{
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
+}
+
+
+function new_affiliates_renderMultiProductWidget(embed_id,embed,results,widgetdata) {
+	document.getElementById(embed_id).classList.add('stacked');
+	document.getElementById(embed_id).classList.add('new_affiliate_embed');
+	document.getElementById(embed_id).classList.remove('constellation_multi_widget');
+	document.getElementById(embed_id).style.height='auto';
+
+	embed.innerHTML = '';
+	for (var result in results) {
+
+		var result=results[result];
+
+		for (var product in widgetdata) {
+			var overrideproduct = widgetdata[product];
+			if (overrideproduct.ean == result.ean) {
+				result.product_name = overrideproduct.product_name;
+				result.image = overrideproduct.image;
+				var overrideproductdetails = overrideproduct;
+			}
+		}
+		image = result.image;
+		if (image.includes('.jpg')) {
+			var thumb = image.replace('.jpg', '-214x158.jpg');
+		} else if (image.includes('.jpeg')) {
+			var thumb = image.replace('.jpeg', '-214x158.jpeg');
+		} else if (image.includes('.png')) {
+			var thumb = image.replace('.png', '-214x158.png');
+		} else {
+			var thumb=image;
+		}
+
+		var fullpriceoutput = '<div class="new_aff_product_full_price"></div>';
+		var mainpriceclass = 'noretail';
+
+		if (overrideproductdetails.storeid != '') {
+			for (var price in result.prices) {
+				price = result.prices[price];
+				if (price.store_id == overrideproductdetails.storeid) {
+					result.product_link = price.product_link;
+					result.store_name = price.store_name;
+					result.product_price = price.product_price;
+					result.currency = price.currency;
+					result.store_image = price.store_image;
+					result.product_condition = price.product_condition;
+					result.affiliate_network = price.affiliate_network;
+				}
+			}
+		} else {
+			result.product_link = result.prices[0].product_link;
+			result.store_name = result.prices[0].store_name;
+			result.product_price = result.prices[0].product_price;
+			result.currency = result.prices[0].currency;
+			result.store_image = result.prices[0].store_image;
+			result.product_condition = result.prices[0].product_condition;
+			result.affiliate_network = result.prices[0].affiliate_network;
+		}
+
+
+		
+
+		if (result.retail_price > 0 && results.retail_price != result.product_price) {
+			fullpriceoutput = `<div class="new_aff_product_full_price">`+new_affiliates_getCurrency(result.retail_currency)+result.retail_price+`</div>`;
+			mainpriceclass = 'hasretail';
+		}
+		var outCondition = '';
+		if (overrideproductdetails.prioritystoreid != '') {
+			result.product_condition = 'promoted';
+		}
+
+		if (result.product_condition) {
+
+			var outCondition = `<div class="new_aff_condition `+result['product_condition']+`">`+result['product_condition'].toLowerCase()+`</div>`;
+			
+		}
+		var target ="_blank"
+		if (result.affiliate_network && result.affiliate_network.toLowerCase() == 'narrativ') {
+			result['product_link'] = 'javascript:clickMate(\''+result['product_link']+'\');'
+			target ="_self"
+		} else {
+			result['product_link'] = new_affiliates_ensureCorrectIds(result);
+		}
+		if (result.affiliate_network && result.affiliate_network.toLowerCase() == 'amazon_us') {
+		
+		}
+
+		if (result['store_image'] && result['store_image'] != '' && result['store_image'] != 'null' && result['store_image'] !== null) {
+			result['store_name'] = '<img src="'+result['store_image']+'" height="30">';
+		}
+		var out = `<div class="new_aff_widget_item "><a href="`+result['product_link']+`" class="no-decoration" target="`+target+`" rel="nofollow noopener sponsored">
+					<div class="new_aff_item_img_link"><img src="`+thumb+`" onerror="this.src='`+image+`';" alt="Product Image">
+					`+outCondition+`
+					</div>
+						<div class="new_aff_item_title_link">`+result['product_name']+`</div>
+					<div class="new_aff_item_details">
+						<div class="new_aff_item_merchant">`+result['store_name']+`</div>
+						<div class="new_aff_product_link">View</div>
+						<div class="new_aff_item_price" data-ean="`+results['ean']+`" data-timestamp="">
+							`+fullpriceoutput+`
+							<div class="new_aff_product_price `+mainpriceclass+`">`+new_affiliates_getCurrency(result['currency'])+result['product_price']+`</div>
+						</div>
+					</div>
+					</a>
+				</div>`;
+		embed.innerHTML = embed.innerHTML + out;
+
+		
+	}
+	if (affiliatedisclaimer) {
+		embed.outerHTML = embed.outerHTML + '<div class="new_aff_disclaimer">'+disclaimertext+'</div>';
+	}
+}
+
+function new_affiliates_renderWidget(embed_id, embed, results, ean, region, title) {
+	if (title != '' && title != results[0].product_name) {
+		results[0].product_name = title;
+	}
+	// MAKE THEM ALL STACKED FOR NOW AS THEY LOOK ODD IF THERE ARE WIDGETS NEXT TO EACH OTHER
+	//if (results[0].prices.length > 1) {
+		document.getElementById(embed_id).classList.add('stacked');
+	//}
+	embed.innerHTML = '';
+	for (var r=0; r<results[0].prices.length; r++) {
+		if (r < new_affiliates_maxEmbeds) {
+			var out = '';
+			var price = results[0].prices[r]; 
+			//if (price.product_condition == 'new') {
+
+				if (embed.getAttribute('data-'+region.toLowerCase()+'-image')) {
+					var image = embed.getAttribute('data-'+region.toLowerCase()+'-image');
+
+					if (image.includes('.jpg')) {
+						var thumb = image.replace('.jpg', '-214x158.jpg');
+					} else if (image.includes('.jpeg')) {
+						var thumb = image.replace('.jpeg', '-214x158.jpeg');
+					} else if (image.includes('.png')) {
+						var thumb = image.replace('.png', '-214x158.png');
+					} else {
+						var thumb=image;
+					}
+				} else {
+					var image = results[0]['image'];
+					var thumb = results[0]['image'];
+				}
+				var fullpriceoutput = '<div class="new_aff_product_full_price"></div>';
+				var mainpriceclass = 'noretail';
+				if (results['0'].retail_price > 0 && results[0].retail_price != price.product_price) {
+					fullpriceoutput = `<div class="new_aff_product_full_price">`+new_affiliates_getCurrency(results['0'].retail_currency)+results['0'].retail_price+`</div>`;
+					mainpriceclass = 'hasretail';
+				}
+				var outCondition = '';
+				if (embed.getAttribute('data-'+region.toLowerCase()+'-promoted')) {
+					price.product_condition = 'promoted';
+				}
+
+				if (price.product_condition) {
+
+					var outCondition = `<div class="new_aff_condition `+price['product_condition']+`">`+price['product_condition'].toLowerCase()+`</div>`;
+					
+				}
+				var target ="_blank"
+				if (price.affiliate_network && price.affiliate_network.toLowerCase() == 'narrativ') {
+					price['product_link'] = 'javascript:clickMate(\''+price['product_link']+'\');'
+					target ="_self"
+				} else {
+					price['product_link'] = new_affiliates_ensureCorrectIds(price);
+				}
+				if (price.affiliate_network && price.affiliate_network.toLowerCase() == 'amazon_us') {
+				
+				}
+
+				if (price['store_image'] && price['store_image'] != '' && price['store_image'] != 'null' && price['store_image'] !== null) {
+					price['store_name'] = '<img src="'+price['store_image']+'" height="30">';
+				}
+				if (!image) {
+					image = '/wp-content/themes/legion/dist/images/NetworkN.svg';
+				}
+				var out = `<div class="new_aff_widget_item "><a href="`+price['product_link']+`" class="no-decoration" target="`+target+`" rel="nofollow noopener sponsored">
+							<div class="new_aff_item_img_link"><img src="`+thumb+`" onerror="this.src='`+image+`';" alt="Product Image">
+							`+outCondition+`
+							</div>
+								<div class="new_aff_item_title_link">`+title+`</div>
+							<div class="new_aff_item_details">
+								<div class="new_aff_item_merchant">`+price['store_name']+`</div>
+								<div class="new_aff_product_link">View</div>
+								<div class="new_aff_item_price" data-ean="`+results[0]['ean']+`" data-timestamp="">
+									`+fullpriceoutput+`
+									<div class="new_aff_product_price `+mainpriceclass+`">`+new_affiliates_getCurrency(price['currency'])+price['product_price']+`</div>
+								</div>
+							</div>
+							</a>
+						</div>`;
+				embed.innerHTML = embed.innerHTML + out;
+		//	}
+		
+		}
+		
+	}
+	if (embed.getAttribute('data-'+region.toLowerCase()+'-promotion-context')) {
+		embed.outerHTML = embed.outerHTML + '<div class="new_aff_disclaimer">'+embed.getAttribute('data-'+region.toLowerCase()+'-promotion-context')+'</div>';
+	} else if (affiliatedisclaimer) {
+		embed.outerHTML = embed.outerHTML + '<div class="new_aff_disclaimer">'+disclaimertext+'</div>';
+	}
+}
+
+function new_affiliates_addMultiWidgetDataToEmbed(embed_id, embed, lookupurl, widgetdata) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		  	try {
+				embed.innerHTML = '';
+				var results = JSON.parse(xhttp.responseText);
+				new_affiliates_renderMultiProductWidget(embed_id, embed, results, widgetdata);
+			} catch (err) {
+				console.log(err);
+				//embed.style.height = '0px';
+			}
+		} else {
+			if (this.readyState == 4) {
+				// hide embed
+				embed.style.display='none';
+			}
+
+		}
+	};
+	xhttp.open("GET", lookupurl, true);
+	xhttp.send();
+}
+
+
+
+function new_affiliates_addDataToEmbed(embed_id, embed, lookupurl, ean, region, title) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		  	try {
+				embed.innerHTML = '';
+				var results = JSON.parse(xhttp.responseText);
+				new_affiliates_renderWidget(embed_id, embed, results, ean, region, title);
+			} catch (err) {
+				console.log(err);
+				embed.style.height = '0px';
+			}
+		} else {
+			if (this.readyState == 4) {
+				// hide embed
+				embed.style.display='none';
+			}
+
+		}
+	};
+	xhttp.open("GET", lookupurl, true);
+	xhttp.send();
+}
+
+
+function new_affiliates_getRegion() {
+
+    // If cloudflare, else return default
+    return new_affiliates_defaultRegion;
+}
+
+function new_affiliates_getCurrency(currency) {
+	if (currency == 'USD') {
+		return '$';
+	} else if (currency == 'GBP') {
+		return '£';
+	}
+	return new_affiliates_defaultCurrency;
+}
+
+function clickMate(url) {
+	var slug = narrativid;
+	var articleName = document.title;
+	var articleUrl = window.location.href;
+	var clickmateUrl = 'https://shop-links.co/link?url=' + encodeURIComponent(url) +
+	'&publisher_slug=' + slug +
+	'&article_name=' + encodeURIComponent(articleName) +
+	'&article_url=' + encodeURIComponent(articleUrl)+
+	'&exclusive=1';
+	window.open(clickmateUrl, '_blank').focus();
+}
+
+function new_affiliates_ensureCorrectIds(price) {
+	var networks = new Array('amazon_uk', 'amazon_us', "affiliate_window",'narrativ');
+	for (var n = 0; n < networks.length; n++) {
+		if (price['affiliate_network'] == networks[n]) {
+			// WE HAVE A NETWORK!
+			for (var p=0; p < possibleInvalidNetworkIds.length; p++) {
+				var reg = new RegExp(possibleInvalidNetworkIds[p], "g");
+				if (price.product_link.indexOf(possibleInvalidNetworkIds[p]) > -1) {
+					price.product_link = price.product_link.replace(reg, window[networks[n]+'id']);
+					return price.product_link;
+				} else {
+
+				}
+			}
+
+		}
+	}
+	return price['product_link'];
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	new_affiliates_loadStores();
+})
+
+window.addEventListener('NextPageInView', function(e) {
+	new_affiliates_parseEmbeds();
+})

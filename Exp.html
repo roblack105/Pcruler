@@ -247,6 +247,7 @@
 <option value="347" >HDD WD Black 5TB 2015 ($347)</option>
 <option value="174" >HDD WD Black 4TB 2015 ($174)</option>
 <option value="33" >HDD WD Blue 1TB 2012 ($33)</option>
+				
         </select>
         </div>
       
@@ -286,7 +287,7 @@ function findTotal(){
         if(parseInt(arr[i].value))
             tot += parseInt(arr[i].value);
     }
-    document.getElementById('total').value = tot;
+    document.getElementById('total').value = tot+ String('$');
 	document.getElementById('total1').value = (tot * 0.062).toFixed(2) + String('%');
 }
 

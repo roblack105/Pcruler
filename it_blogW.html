@@ -341,7 +341,7 @@
                 <div class="form-group">
 <form name="tax_form" class="col-md-11" id="tax_form2">
             <label for="Price2">Price</label>
-                    <label class="total">Tota&nbsp;&nbsp;</label>
+                    <label class="total">Total&nbsp;&nbsp;</label>
  <input type="text" name="total" id="total" readonly/>
                   </form>
 
@@ -372,7 +372,7 @@ function findTotal(){
         if(parseInt(arr[i].value))
             tot += parseInt(arr[i].value);
     }
-    document.getElementById('total').value = tot;
+    document.getElementById('total').value = tot + String('$');
 	document.getElementById('total1').value = (tot * 0.072).toFixed(2) + String('%');
 }
 
